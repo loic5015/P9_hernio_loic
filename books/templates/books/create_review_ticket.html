@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
+{% load bootstrap5 %}
 {% block content %}
+    <div class="container">
     <h2>Créer une critique</h2>
     <form method="post" enctype="multipart/form-data">
-        {{ form_ticket.as_p }}
-        {{ form_review.as_p }}
+        {% bootstrap_form form_ticket %}
+        {% bootstrap_form form_review %}
         {% csrf_token %}
+        {% buttons %}
         <button type="submit" >Envoyer</button>
     </form>
+    <a href="{% url 'login' %}"><button type="" >Retourner</button></a>
+        {% endbuttons %}
+    </div>
 {% endblock content %}

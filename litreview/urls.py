@@ -38,7 +38,7 @@ urlpatterns = [
     path('signup/', authentication.views.signup_page, name='signup'),
     path('books/create_ticket/', books.views.create_ticket, name='create-ticket'),
     path('books/<int:ticket_id>/create', books.views.create_review, name='create-review'),
-    path('books/create_critique', books.views.create_review_ticket, name='create-review-ticket'),
+    path('books/create_critique/', books.views.create_review_ticket, name='create-review-ticket'),
     path('books/subscribe/', books.views.subscribe_user, name='subscribe-page'),
 ]
 

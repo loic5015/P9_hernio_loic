@@ -1,17 +1,33 @@
 {% extends 'base.html' %}
+{% load bootstrap5 %}
+
+
 {% block content %}
+    <div class="container">
     <h2>Suivre d'autres utilisateurs</h2>
-    <form method="post" enctype="multipart/form-data">
-        {{ form }}
+    <form role="form" method="post" class="row">
+        {% bootstrap_form form layout="horizontal" %}
         {% csrf_token %}
-        <button type="submit" >Envoyer</button>
+        {% buttons submit='Envoyer' layout="horizontal" %}{% endbuttons %}
     </form>
-    <h2>Abonnements</h2>
+    <h2 class="text-center">Abonnements</h2>
+    <ul class="list-group">
     {% for subscription in subscriptions %}
-        <p>{{ subscription.followed_user.username }}</p>
+
+
+       <li class="list-group-item">
+           <div class="row">
+               <div class="col-md-4">{{ subscription.followed_user.username }}</div>
+               <div class="col-md-2 offset-md-6"><a class="btn btn-primary text-right" href="">Se désabonner</a></div>
+           </div>
+       </li>
     {% endfor %}
-    <h2>Abonnés</h2>
+    </ul>
+    <h2 class="text-center">Abonnés</h2>
+    <ul class="list-group">
         {% for subscriber in subscribers %}
-        <p>{{ subscribers.user.username }}</p>
+        <li class="list-group-item">{{ subscriber.user.username }}</li>
         {% endfor %}
+    </ul>
+    </div>
 {% endblock content %}

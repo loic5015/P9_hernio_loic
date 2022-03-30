@@ -69,8 +69,8 @@ def subscribe_user(request):
         if form.is_valid():
             user_follow = models.UserFollows()
             user_follow.user = request.user
-            follow = User.objects.filter(username=form.cleaned_data['username'])
-            user_follow.followed_user = follow[0]
+            follow = User.objects.filter(username=form.cleaned_data['username'])[0]
+            user_follow.followed_user = follow
             user_follow.save()
             return redirect('subscribe-page')
     return render(request, 'books/subscription.html',
