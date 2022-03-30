@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2><a href="{% url 'create-ticket' %}">demander une critique</a></h2>
+    <h2><a href="{% url 'create-review-ticket' %}">créer une critique</a></h2>
+    {% for ticket in tickets %}
+        <p>{{ ticket.title }}</p>
+        <p>{{ ticket.user.username }}</p>
+        <p>{{ ticket.description }}</p>
+        {% if ticket.image %}
+        <p><img src="{{ ticket.image.url }}"></p>
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>LITreview</title>
+</head>
+<body>
+    <div>
+        <h2>LitReview</h2>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'home' %}">flux</a>
+            <a href="{% url 'subscribe-page' %}">abonnements</a>
+            <a href="">posts</a>
+            <a href="{% url 'logout' %}">Se deconnecter</a>
+        </p>
+        {% endif %}
+    </div>
+        {% block content %}{% endblock content %}
+</body>
+</html>
