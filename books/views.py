@@ -3,12 +3,23 @@ from . import forms, models
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from authentication.models import User
+from itertools import chain
 
 
 @login_required()
 def home(request):
-    tickets = models.Ticket.objects.all()
-    return render(request, 'books/home.html', {'tickets': tickets})
+    follow = models.UserFollows.objects.filter(user=request.user)
+    followed = [user.followed_user for user in follow]
+    review = models.Review.objects.filter(user__in=followed)
+    ticket_exclude = [r.ticket.id for r in review]
+    tickets = models.Ticket.objects.filter(user__in=followed).exclude(id__in=ticket_exclude)
+
+    tickets_and_reviews = sorted(
+        chain(tickets, review),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews})
 
 
 @login_required()

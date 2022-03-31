@@ -1,0 +1,18 @@
+<div class="row border mt-2">
+    <div class="col-md-6">
+
+        <p>{{ review.user.username }} posted a review</p>
+        <p>{{ review.headline }}</p>
+        <p>{{ review.body }}</p>
+        <p>{{ review.rating }}</p>
+        {% if ticket.image %}
+        <p><img class="img-fluid" src="{{ ticket.image.url }}"></p>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <p class="text-center">{{ review.time_created | date:'H:i, d m Y' }}</p>
+    </div>
+    <div class="col-md-8 offset-md-2 mb-2">
+        {% include 'books/partials/ticket_snippet.html' with ticket=review.ticket %}
+    </div>
+</div>

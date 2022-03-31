@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
+{% load books_extras %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <p>
-            <a class="btn btn-primary" href="{% url 'create-ticket' %}">demander une critique</a>
-            <a class="btn btn-primary" href="{% url 'create-review-ticket' %}">créer une critique</a>
-            </p>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <p class="text-center"><a class="btn btn-primary text-center" href="{% url 'create-ticket' %}">demander une critique</a></p>
+            </div>
+            <div class="col-md-6">
+                 <a class="btn btn-primary" href="{% url 'create-review-ticket' %}">créer une critique</a>
+            </div>
         </div>
-    {% for ticket in tickets %}
-        <p>{{ ticket.title }}</p>
-        <p>{{ ticket.user.username }}</p>
-        <p>{{ ticket.description }}</p>
-        {% if ticket.image %}
-        <p><img src="{{ ticket.image.url }}"></p>
-        {% endif %}
-    {% endfor %}
-    </div>
+        {% for instance in tickets_and_reviews %}
+            {% if instance|model_type == 'Ticket' %}
+                {% include 'books/partials/ticket_snippet.html' with ticket=instance %}
+            {% elif instance|model_type == 'Review' %}
+                {% include 'books/partials/review_snippet.html' with review=instance %}
+            {% endif %}
+        {% endfor %}
+
+
 {% endblock content %}

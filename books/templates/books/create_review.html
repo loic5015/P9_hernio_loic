@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-    <div class="container">
-    <h2>Créer une critique</h2>
-    <p>{{ ticket.user }} a demandé une critique</p>
-    <p>{{ ticket.title }}</p>
-    <p>{{ ticket.description }}</p>
-    <p><img src="{{ ticket.image.url }}"></p>
 
+    {% include 'books/partials/ticket_snippet.html' with ticket=ticket %}
+    <div class="row">
     <form method="post" >
         {% bootstrap_form form %}
         {% csrf_token %}
