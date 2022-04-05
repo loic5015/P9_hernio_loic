@@ -1,16 +1,25 @@
 <div class="row border mt-2">
-    <div class="col-md-6">
+    <div class="col-md-9 offset-md-1">
 
-        <p>{{ review.user.username }} posted a review</p>
-        <p>{{ review.headline }}</p>
+        <p><em>{{ review.user.username }} posted a review</em></p>
+        <h6>{{ review.headline | capfirst }}</h6>
         <p>{{ review.body }}</p>
         <p>{{ review.rating }}</p>
-        {% if ticket.image %}
-        <p><img class="img-fluid" src="{{ ticket.image.url }}"></p>
-        {% endif %}
     </div>
-    <div class="col-md-6">
-        <p class="text-center">{{ review.time_created | date:'H:i, d m Y' }}</p>
+    <div class="col-md-2 text-center">
+        <p> A {{ review.time_created | date:'H:i, d m Y' }}</p>
+        {% if post %}
+        <div class="d-table mb-3">
+            <div class="d-table-row">
+                 <div class="d-table-cell">
+                    <p class="text-center"><a class="btn btn-primary" href="{% url 'edit-review' review.id %}">modifier</a></p>
+                </div>
+                <div class="d-table-cell">
+                    <p class="text-center"><a class="btn btn-danger" href="{% url 'edit-review' review.id %}">supprimer</a></p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="col-md-8 offset-md-2 mb-2">
         {% include 'books/partials/ticket_snippet.html' with ticket=review.ticket %}

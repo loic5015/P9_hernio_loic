@@ -33,3 +33,7 @@ def signup_page(request):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+def settings_user(request):
+    return render(request, 'authentication/settings.html')

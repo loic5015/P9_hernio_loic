@@ -3,6 +3,7 @@ from . import forms, models
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from authentication.models import User
+from django.db.models import Q
 from itertools import chain
 
 
@@ -10,6 +11,7 @@ from itertools import chain
 def home(request):
     follow = models.UserFollows.objects.filter(user=request.user)
     followed = [user.followed_user for user in follow]
+    followed.append(request.user)
     review = models.Review.objects.filter(user__in=followed)
     ticket_exclude = [r.ticket.id for r in review]
     tickets = models.Ticket.objects.filter(user__in=followed).exclude(id__in=ticket_exclude)
@@ -19,7 +21,21 @@ def home(request):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews})
+    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews, 'post': False})
+
+
+@login_required()
+def posts(request):
+    review = models.Review.objects.filter(user=request.user)
+    ticket_exclude = [r.ticket.id for r in review]
+    tickets = models.Ticket.objects.filter(user=request.user).exclude(id__in=ticket_exclude)
+
+    tickets_and_reviews = sorted(
+        chain(tickets, review),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+    return render(request, 'books/posts.html', {'tickets_and_reviews': tickets_and_reviews, 'post': True})
 
 
 @login_required()
@@ -47,7 +63,7 @@ def create_review(request, ticket_id):
             review.ticket = ticket
             review.save()
             return redirect('home')
-    return render(request, 'books/create_review.html', context={'form': form, 'ticket': ticket})
+    return render(request, 'books/create_review.html', context={'form': form, 'ticket': ticket, 'post': True})
 
 
 @login_required()
@@ -70,6 +86,7 @@ def create_review_ticket(request):
                   context={'form_ticket': form_ticket, 'form_review': form_review})
 
 
+@login_required()
 def subscribe_user(request):
     form = forms.SubscriptionsForm()
     subscriptions = models.UserFollows.objects.filter(user=request.user)
@@ -87,3 +104,82 @@ def subscribe_user(request):
     return render(request, 'books/subscription.html',
                   {'form': form, 'subscriptions': subscriptions, 'subscribers': subscribers})
 
+
+@login_required()
+def delete_follow(request, followed_user_id):
+    followed_user = User.objects.get(id=followed_user_id)
+    row = models.UserFollows.objects.filter(Q(user=request.user) & Q(followed_user=followed_user))
+    row.delete()
+    return redirect('subscribe-page')
+
+
+@login_required
+def edit_blog(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=blog_id)
+    edit_form = forms.TicketForm(instance=ticket)
+    delete_form = forms.DeleteTicketForm()
+    if request.method == 'POST':
+        if 'edit_ticket' in request.POST:
+            edit_form = forms.TicketForm(request.POST, instance=blog)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('posts')
+        if 'delete_ticket' in request.POST:
+            delete_form = forms.DeleteTicketForm(request.POST)
+            if delete_form.is_valid():
+                ticket.delete()
+                return redirect('posts')
+
+    context = {
+        'edit_form': edit_form,
+        'delete_form': delete_form,
+    }
+    return render(request, 'blog/edit_blog.html', context=context)
+
+
+@login_required
+def edit_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    edit_form = forms.TicketForm(instance=ticket)
+    delete_form = forms.DeleteTicketForm()
+    if request.method == 'POST':
+        if 'edit_ticket' in request.POST:
+            edit_form = forms.TicketForm(request.POST, instance=blog)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('posts')
+        if 'delete_ticket' in request.POST:
+            delete_form = forms.DeleteTicketForm(request.POST)
+            if delete_form.is_valid():
+                ticket.delete()
+                return redirect('posts')
+
+    context = {
+        'edit_form': edit_form,
+        'delete_form': delete_form,
+    }
+    return render(request, 'books/edit_ticket.html', context=context)
+
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+    edit_form = forms.ReviewForm(instance=review)
+    delete_form = forms.DeleteReviewForm()
+    if request.method == 'POST':
+        if 'edit_review' in request.POST:
+            edit_form = forms.ReviewForm(request.POST, instance=review)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('posts')
+        if 'delete_review' in request.POST:
+            delete_form = forms.DeleteReviewForm(request.POST)
+            if delete_form.is_valid():
+                review.delete()
+                return redirect('posts')
+
+    context = {
+        'edit_form': edit_form,
+        'delete_form': delete_form,
+    }
+    return render(request, 'books/edit_review.html', context=context)

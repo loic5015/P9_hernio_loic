@@ -1,21 +1,35 @@
-<div class="row border mt-2">
-    <div class="col-md-6">
+<div class="row border mt-2 bg-light">
+    <div class="col-md-10">
         {% if review.ticket is None %}
-        <p>{{ ticket.user.username }} a demandé une critique</p>
+        <p><em>{{ ticket.user.username }} a demandé une critique</em></p>
         {% else %}
-        <p>Ticket - {{ ticket.user.username }}</p>
+        <p><em>Ticket - {{ ticket.user.username }}</em></p>
         {% endif %}
-        <p>{{ ticket.title }}</p>
+        <h6>{{ ticket.title | capfirst }}</h6>
         <p>{{ ticket.description }}</p>
         {% if ticket.image %}
         <p><img class="img-fluid" src="{{ ticket.image.url }}"></p>
         {% endif %}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-2">
         {% if review.ticket is None %}
-        <p class="text-center">{{ ticket.time_created | date:'H:i, d m Y' }}</p>
+        <p class="text-center">A {{ ticket.time_created | date:'H:i, d m Y' }}</p>
+        {% if not post %}
+        <p class="text-center align-bottom"><a class="btn btn-primary" href="{% url 'create-review' ticket.id %}">Créér une critique</a></p>*
+        {% endif %}
+        {% endif %}
+        {% if post and request.user == ticket.user %}
+        <div class="d-table mt-3 mb-3">
+            <div class="d-table-row">
+                 <div class="d-table-cell">
+                    <p class="text-center align-bottom"><a class="btn btn-primary" href="{% url 'edit-ticket' ticket.id %}">modifier</a></p>
+                 </div>
 
-        <p class="text-center align-bottom"><a class="btn btn-primary" href="{% url 'create-review' ticket.id %}">Créér une critique</a></p>
+                <div class="d-table-cell">
+                    <p class="text-center align-bottom"><a class="btn btn-danger" href="{% url 'edit-ticket' ticket.id %}">supprimer</a></p>
+                </div>
+            </div>
+        </div>
         {% endif %}
     </div>
 </div>

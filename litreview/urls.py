@@ -33,13 +33,21 @@ urlpatterns = [
     path('change_password_done/', PasswordChangeDoneView.as_view(
         template_name='authentication/password_change_done.html'
     ), name='password_change_done'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(
+        template_name='authentication/logout.html'
+    ), name='logout'),
     path('home/', books.views.home, name='home'),
+    path('home/settings', authentication.views.settings_user, name='settings'),
+    path('books/posts', books.views.posts, name='posts'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('books/create_ticket/', books.views.create_ticket, name='create-ticket'),
     path('books/<int:ticket_id>/create', books.views.create_review, name='create-review'),
     path('books/create_critique/', books.views.create_review_ticket, name='create-review-ticket'),
     path('books/subscribe/', books.views.subscribe_user, name='subscribe-page'),
+    path('books/<int:followed_user_id>/delete', books.views.delete_follow, name='delete-follow'),
+    path('books/<int:ticket_id>/change_ticket', books.views.edit_ticket, name='edit-ticket'),
+    path('books/<int:review_id>/change_review', books.views.edit_review, name='edit-review'),
+
 ]
 
 if settings.DEBUG:

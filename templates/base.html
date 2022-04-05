@@ -19,13 +19,16 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}">flux</a>
                     </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">posts</a>
+                    <a class="nav-link active" href="{% url 'posts' %}">posts</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'subscribe-page' %}">abonnements</a>
+                  <a class="nav-link active" href="{% url 'subscribe-page' %}">abonnements</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Se deconnecter</a>
+                    <a class="nav-link active" href="{% url 'logout' %}">Se deconnecter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'settings' %}">{{ request.user }}</a>
                 </li>
                 </ul>
             </div>

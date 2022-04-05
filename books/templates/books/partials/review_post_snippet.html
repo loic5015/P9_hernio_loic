@@ -1,0 +1,28 @@
+<div class="row border mt-2">
+    <div class="col-md-10">
+
+        <p>{{ review.user.username }} posted a review</p>
+        <p>{{ review.headline }}</p>
+        <p>{{ review.body }}</p>
+        <p>{{ review.rating }}</p>
+    </div>
+    <div class="col-md-2">
+        <p class="text-center">A {{ review.time_created | date:'H:i, d m Y' }}</p>
+        {% if post %}
+        <div class="d-table mb-3 text-right">
+            <div class="d-table-row">
+                 <div class="d-table-cell">
+                    <p><a class="btn btn-primary" href="{% url 'edit-review' review.id %}">modifier</a></p>
+                </div>
+                <div class="d-table-cell">
+                    <p><a class="btn btn-danger" href="{% url 'edit-review' review.id %}">supprimer</a></p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+
+{% include 'books/partials/ticket_snippet.html' with ticket=review.ticket %}

@@ -4,29 +4,31 @@
 
 {% block content %}
     <div class="row">
-    <h2>Suivre d'autres utilisateurs</h2>
-    <form role="form" method="post" class="row">
-        {% bootstrap_form form layout="horizontal" %}
+    <h2 class="text-center">Suivre d'autres utilisateurs</h2>
+    <form  method="post" class="row">
+        {% bootstrap_form form  %}
         {% csrf_token %}
-        {% buttons submit='Envoyer' layout="horizontal" %}{% endbuttons %}
+        {% buttons submit='Envoyer' %}{% endbuttons %}
     </form>
     <h2 class="text-center">Abonnements</h2>
     <ul class="list-group">
     {% for subscription in subscriptions %}
 
 
-       <li class="list-group-item">
+       <li class="list-group-item bg-light">
            <div class="row">
                <div class="col-md-4">{{ subscription.followed_user.username }}</div>
-               <div class="col-md-2 offset-md-6"><a class="btn btn-primary text-right" href="">Se désabonner</a></div>
+               <div class="col-md-2 offset-md-6">
+                   <a class="btn btn-success text-right btn-sm"
+                      href="{% url 'delete-follow' subscription.followed_user.id %}">Se désabonner</a></div>
            </div>
        </li>
     {% endfor %}
     </ul>
     <h2 class="text-center">Abonnés</h2>
-    <ul class="list-group">
+    <ul class="list-group ">
         {% for subscriber in subscribers %}
-        <li class="list-group-item">{{ subscriber.user.username }}</li>
+        <li class="list-group-item bg-light">{{ subscriber.user.username }}</li>
         {% endfor %}
     </ul>
     </div>

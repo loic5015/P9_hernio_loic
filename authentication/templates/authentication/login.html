@@ -1,5 +1,5 @@
-
 {% extends 'base.html' %}
+{% load bootstrap5 %}
 {% block content %}
     <p>{{ message }}</p>
     <div>
@@ -9,7 +9,7 @@
     <div>
         <h2>Connectez vous</h2>
     <form method="post">
-        {{ form.as_p }}
+        {% bootstrap_form form %}
         {% csrf_token %}
         <button type="submit" >Se connecter</button>
     </form>
