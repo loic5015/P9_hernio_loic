@@ -9,6 +9,7 @@ from itertools import chain
 
 @login_required()
 def home(request):
+    stars = [0, 1, 2, 3, 4, 5]
     follow = models.UserFollows.objects.filter(user=request.user)
     followed = [user.followed_user for user in follow]
     followed.append(request.user)
@@ -21,11 +22,12 @@ def home(request):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews, 'post': False})
+    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews, 'post': False, 'stars': stars})
 
 
 @login_required()
 def posts(request):
+    stars = [0, 1, 2, 3, 4, 5]
     review = models.Review.objects.filter(user=request.user)
     ticket_exclude = [r.ticket.id for r in review]
     tickets = models.Ticket.objects.filter(user=request.user).exclude(id__in=ticket_exclude)
@@ -35,7 +37,7 @@ def posts(request):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    return render(request, 'books/posts.html', {'tickets_and_reviews': tickets_and_reviews, 'post': True})
+    return render(request, 'books/posts.html', {'tickets_and_reviews': tickets_and_reviews, 'post': True, 'stars': stars})
 
 
 @login_required()

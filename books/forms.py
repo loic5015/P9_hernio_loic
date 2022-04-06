@@ -12,7 +12,9 @@ class TicketForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     edit_review = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     CHOICES = (('0', 0), ('1', 1),  ('2', 2), ('3', 3), ('4', 4), ('5', 5))
-    rating = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    rating = forms.ChoiceField(choices=CHOICES, label='Note', widget=forms.RadioSelect(attrs={'class': 'inline'}))
+    headline = forms.CharField(label='Titre')
+    body = forms.CharField(label='commentaire', widget=forms.Textarea)
     class Meta:
         model = Review
         fields = ['headline', 'body', 'rating']

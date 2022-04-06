@@ -1,9 +1,13 @@
 <div class="row border mt-2 bg-light">
     <div class="col-md-10">
-        {% if review.ticket is None %}
-        <p><em>{{ ticket.user.username }} a demandé une critique</em></p>
-        {% else %}
-        <p><em>Ticket - {{ ticket.user.username }}</em></p>
+        {% if review.ticket is None and ticket.user != request.user  %}
+            <p><em>{{ ticket.user.username }} a demandé une critique</em></p>
+        {% elif review.ticket is None and ticket.user == request.user %}
+            <p><em>Vous avez demandé une critique</em></p>
+        {% elif review.ticket is not None and ticket.user == request.user %}
+            <p><em>Ticket vous</em></p>
+        {% elif review.ticket is not None and ticket.user != request.user %}
+            <p><em>Ticket - {{ ticket.user.username }}</em></p>
         {% endif %}
         <h6>{{ ticket.title | capfirst }}</h6>
         <p>{{ ticket.description }}</p>
@@ -12,10 +16,10 @@
         {% endif %}
     </div>
     <div class="col-md-2">
-        {% if review.ticket is None %}
+        {% if review.ticket is None or post %}
         <p class="text-center">A {{ ticket.time_created | date:'H:i, d m Y' }}</p>
         {% if not post %}
-        <p class="text-center align-bottom"><a class="btn btn-primary" href="{% url 'create-review' ticket.id %}">Créér une critique</a></p>*
+        <p class="text-center align-bottom"><a class="btn btn-primary" href="{% url 'create-review' ticket.id %}">Créér une critique</a></p>
         {% endif %}
         {% endif %}
         {% if post and request.user == ticket.user %}
