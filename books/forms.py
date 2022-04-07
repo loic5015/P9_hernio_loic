@@ -4,6 +4,7 @@ from .models import Ticket, Review
 
 class TicketForm(forms.ModelForm):
     edit_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']
@@ -15,6 +16,7 @@ class ReviewForm(forms.ModelForm):
     rating = forms.ChoiceField(choices=CHOICES, label='Note', widget=forms.RadioSelect(attrs={'class': 'inline'}))
     headline = forms.CharField(label='Titre')
     body = forms.CharField(label='commentaire', widget=forms.Textarea)
+
     class Meta:
         model = Review
         fields = ['headline', 'body', 'rating']
@@ -30,5 +32,3 @@ class DeleteReviewForm(forms.Form):
 
 class SubscriptionsForm(forms.Form):
     username = forms.CharField(max_length=128)
-
-

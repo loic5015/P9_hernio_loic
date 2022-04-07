@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from . import forms, models
-from django.conf import settings
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from authentication.models import User
 from django.db.models import Q
 from itertools import chain
@@ -22,7 +21,8 @@ def home(request):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews, 'post': False, 'stars': stars})
+    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews, 'post': False,
+                                               'stars': stars})
 
 
 @login_required()
@@ -37,7 +37,8 @@ def posts(request):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    return render(request, 'books/posts.html', {'tickets_and_reviews': tickets_and_reviews, 'post': True, 'stars': stars})
+    return render(request, 'books/posts.html', {'tickets_and_reviews': tickets_and_reviews, 'post': True,
+                                                'stars': stars})
 
 
 @login_required()
@@ -116,37 +117,13 @@ def delete_follow(request, followed_user_id):
 
 
 @login_required
-def edit_blog(request, ticket_id):
-    ticket = get_object_or_404(models.Ticket, id=blog_id)
-    edit_form = forms.TicketForm(instance=ticket)
-    delete_form = forms.DeleteTicketForm()
-    if request.method == 'POST':
-        if 'edit_ticket' in request.POST:
-            edit_form = forms.TicketForm(request.POST, instance=blog)
-            if edit_form.is_valid():
-                edit_form.save()
-                return redirect('posts')
-        if 'delete_ticket' in request.POST:
-            delete_form = forms.DeleteTicketForm(request.POST)
-            if delete_form.is_valid():
-                ticket.delete()
-                return redirect('posts')
-
-    context = {
-        'edit_form': edit_form,
-        'delete_form': delete_form,
-    }
-    return render(request, 'blog/edit_blog.html', context=context)
-
-
-@login_required
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)
     delete_form = forms.DeleteTicketForm()
     if request.method == 'POST':
         if 'edit_ticket' in request.POST:
-            edit_form = forms.TicketForm(request.POST, instance=blog)
+            edit_form = forms.TicketForm(request.POST, instance=ticket)
             if edit_form.is_valid():
                 edit_form.save()
                 return redirect('posts')

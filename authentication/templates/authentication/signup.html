@@ -8,7 +8,7 @@
     <form method="post">
         {% bootstrap_form form %}
         {% csrf_token %}
-        <button type="submit" >S’inscrire</button>
+        <button class="btn-primary" type="submit" >S’inscrire</button>
     </form>
-    <a href="{% url 'login' %}"><button type="" >Retourner</button></a>
+    <a href="{% url 'login' %}"><button class="btn-info" type="" >Retourner</button></a>
 {% endblock content %}
