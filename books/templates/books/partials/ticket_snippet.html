@@ -22,7 +22,7 @@
         <p class="text-center align-bottom"><a class="btn btn-primary" href="{% url 'create-review' ticket.id %}">Créér une critique</a></p>
         {% endif %}
         {% endif %}
-        {% if post and request.user == ticket.user %}
+        {% if post and request.user == ticket.user and edit %}
         <div class="d-table mt-3 mb-3">
             <div class="d-table-row">
                  <div class="d-table-cell">

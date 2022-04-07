@@ -1,9 +1,13 @@
+import os.path
+
 from django.shortcuts import render, redirect, get_object_or_404
 from . import forms, models
 from django.contrib.auth.decorators import login_required
 from authentication.models import User
 from django.db.models import Q
 from itertools import chain
+from django.core.paginator import Paginator
+
 
 
 @login_required()
@@ -21,7 +25,11 @@ def home(request):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    return render(request, 'books/home.html', {'tickets_and_reviews': tickets_and_reviews, 'post': False,
+    paginator = Paginator(tickets_and_reviews, 4)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'books/home.html', {'page_obj': page_obj, 'post': False,
                                                'stars': stars})
 
 
@@ -37,8 +45,12 @@ def posts(request):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    return render(request, 'books/posts.html', {'tickets_and_reviews': tickets_and_reviews, 'post': True,
-                                                'stars': stars})
+    paginator = Paginator(tickets_and_reviews, 4)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'books/posts.html', {'page_obj': page_obj, 'post': True,
+                                                'stars': stars, 'edit': True})
 
 
 @login_required()
@@ -66,7 +78,8 @@ def create_review(request, ticket_id):
             review.ticket = ticket
             review.save()
             return redirect('home')
-    return render(request, 'books/create_review.html', context={'form': form, 'ticket': ticket, 'post': True})
+    context = {'form': form, 'ticket': ticket, 'post': True, 'edit': False}
+    return render(request, 'books/create_review.html', context=context)
 
 
 @login_required()
@@ -123,8 +136,11 @@ def edit_ticket(request, ticket_id):
     delete_form = forms.DeleteTicketForm()
     if request.method == 'POST':
         if 'edit_ticket' in request.POST:
-            edit_form = forms.TicketForm(request.POST, instance=ticket)
+            edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
             if edit_form.is_valid():
+                image_path = ticket.image.path
+                if os.path.exists(image_path):
+                    os.remove(image_path)
                 edit_form.save()
                 return redirect('posts')
         if 'delete_ticket' in request.POST:
@@ -136,6 +152,7 @@ def edit_ticket(request, ticket_id):
     context = {
         'edit_form': edit_form,
         'delete_form': delete_form,
+        'edit': True,
     }
     return render(request, 'books/edit_ticket.html', context=context)
 
@@ -160,6 +177,8 @@ def edit_review(request, review_id):
     context = {
         'edit_form': edit_form,
         'delete_form': delete_form,
-        'review': review
+        'review': review,
+        'edit': True,
+
     }
     return render(request, 'books/edit_review.html', context=context)

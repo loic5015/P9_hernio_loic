@@ -4,7 +4,7 @@
 <div class="row border mt-2">
     <div class="col-md-12">
     <h4>Modifier le ticket</h4>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% bootstrap_form edit_form %}
         {% csrf_token %}
          {% buttons %}
