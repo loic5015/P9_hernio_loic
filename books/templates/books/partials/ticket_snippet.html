@@ -17,7 +17,7 @@
     </div>
     <div class="col-md-2">
         {% if review.ticket is None or post %}
-        <p class="text-center">A {{ ticket.time_created | date:'H:i, d m Y' }}</p>
+        <p class="text-center">A {{ ticket.time_created | date:'H:i, d M Y' }}</p>
         {% if not post %}
         <p class="text-center align-bottom"><a class="btn btn-primary" href="{% url 'create-review' ticket.id %}">Créér une critique</a></p>
         {% endif %}

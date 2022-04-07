@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-    <h2>Modifier la critique</h2>
+    <h4>Modifier la critique</h4>
+<div class="row border mt-2">
+    <div class="col-md-12">
+            <p>Vous êtes en train de poster une réponse à :</p>
+    </div>
+    <div class="col-md-10 offset-md-1 mb-2">
+    {% include 'books/partials/ticket_snippet.html' with ticket=review.ticket %}
+    </div>
+</div>
+    <div class="row border">
     <form method="post">
         {% bootstrap_form edit_form %}
         {% csrf_token %}
          {% buttons %}
-        <button type="submit" >Modifier</button>
+        <button class="btn btn-primary" type="submit" >Modifier</button>
          {% endbuttons %}
     </form>
     <hr>
@@ -15,7 +24,8 @@
         {{ delete_form }}
         {% csrf_token %}
          {% buttons %}
-        <button type="submit" >Supprimer</button>
+        <button class="btn btn-danger" type="submit" >Supprimer</button>
          {% endbuttons %}
     </form>
+    </div>
 {% endblock content %}

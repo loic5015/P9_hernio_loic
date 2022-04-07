@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-
+<div class="row border mt-2">
+    <div class="col-md-12">
+            <p>Vous êtes en train de poster une réponse à :</p>
+    </div>
+    <div class="col-md-10 offset-md-1 mb-2">
     {% include 'books/partials/ticket_snippet.html' with ticket=ticket %}
-    <div class="row">
+    </div>
+</div>
+    <div class="row border">
     <form method="post" >
         {% bootstrap_form form %}
         {% csrf_token %}
         {% buttons %}
-        <button type="submit" >Envoyer</button>
+        <button class="btn btn-primary" type="submit" >Envoyer</button>
     </form>
     <a href="{% url 'login' %}"><button type="" >Retourner</button></a>
         {% endbuttons %}

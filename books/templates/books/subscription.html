@@ -4,8 +4,8 @@
 
 {% block content %}
     <div class="row">
-    <h2 class="text-center">Suivre d'autres utilisateurs</h2>
-    <form  method="post" class="row">
+    <h4 class="text-center">Suivre d'autres utilisateurs</h4>
+    <form class="form-inline" method="post" >
         {% bootstrap_form form  %}
         {% csrf_token %}
         {% buttons submit='Envoyer' %}{% endbuttons %}

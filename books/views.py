@@ -9,7 +9,7 @@ from itertools import chain
 
 @login_required()
 def home(request):
-    stars = [0, 1, 2, 3, 4, 5]
+    stars = [1, 2, 3, 4, 5]
     follow = models.UserFollows.objects.filter(user=request.user)
     followed = [user.followed_user for user in follow]
     followed.append(request.user)
@@ -27,7 +27,7 @@ def home(request):
 
 @login_required()
 def posts(request):
-    stars = [0, 1, 2, 3, 4, 5]
+    stars = [1, 2, 3, 4, 5]
     review = models.Review.objects.filter(user=request.user)
     ticket_exclude = [r.ticket.id for r in review]
     tickets = models.Ticket.objects.filter(user=request.user).exclude(id__in=ticket_exclude)
@@ -183,5 +183,6 @@ def edit_review(request, review_id):
     context = {
         'edit_form': edit_form,
         'delete_form': delete_form,
+        'review': review
     }
     return render(request, 'books/edit_review.html', context=context)

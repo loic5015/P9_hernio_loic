@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-    <h2>Modifier le ticket</h2>
+<div class="row border mt-2">
+    <div class="col-md-12">
+    <h4>Modifier le ticket</h4>
     <form method="post">
         {% bootstrap_form edit_form %}
         {% csrf_token %}
          {% buttons %}
-        <button type="submit" >Modifier</button>
+        <button class="btn btn-primary" type="submit" >Modifier</button>
          {% endbuttons %}
     </form>
     <hr>
-    <h3>Supprimer le ticket ?</h3>
+    <h4>Supprimer le ticket ?</h4>
     <form method="post">
         {{ delete_form }}
         {% csrf_token %}
          {% buttons %}
-        <button type="submit" >Supprimer</button>
+        <button class="btn btn-danger" type="submit" >Supprimer</button>
          {% endbuttons %}
     </form>
+    </div>
 {% endblock content %}
