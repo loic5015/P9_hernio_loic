@@ -1,5 +1,3 @@
-import os.path
-
 from django.shortcuts import render, redirect, get_object_or_404
 from . import forms, models
 from django.contrib.auth.decorators import login_required
@@ -7,7 +5,6 @@ from authentication.models import User
 from django.db.models import Q
 from itertools import chain
 from django.core.paginator import Paginator
-
 
 
 @login_required()

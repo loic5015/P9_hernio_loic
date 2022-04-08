@@ -2,7 +2,6 @@ from django import forms
 from .models import Ticket, Review
 
 
-
 class TicketForm(forms.ModelForm):
     edit_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
@@ -34,5 +33,3 @@ class DeleteReviewForm(forms.Form):
 
 class SubscriptionsForm(forms.Form):
     username = forms.CharField(max_length=128)
-
-
