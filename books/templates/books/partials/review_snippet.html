@@ -25,7 +25,18 @@
     </div>
     <div class="col-md-2 text-center">
         <p> A {{ review.time_created | date:'H:i, d M Y' }}</p>
-        {% if post %}
+
+    </div>
+    <div class="col-md-10 offset-md-1 mb-2">
+        {% include 'books/partials/ticket_snippet.html' with ticket=review.ticket %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+
+        </div>
+        <div class="col-md-2">
+            {% if post %}
         <div class="d-table mb-3">
             <div class="d-table-row">
                  <div class="d-table-cell">
@@ -40,8 +51,6 @@
             </div>
         </div>
         {% endif %}
-    </div>
-    <div class="col-md-10 offset-md-1 mb-2">
-        {% include 'books/partials/ticket_snippet.html' with ticket=review.ticket %}
+        </div>
     </div>
 </div>

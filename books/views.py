@@ -16,7 +16,8 @@ def home(request):
     follow = models.UserFollows.objects.filter(user=request.user)
     followed = [user.followed_user for user in follow]
     followed.append(request.user)
-    review = models.Review.objects.filter(user__in=followed)
+    ticket_user = models.Ticket.objects.filter(user=request.user)
+    review = models.Review.objects.filter(Q(user__in=followed) | Q(ticket__in=ticket_user))
     ticket_exclude = [r.ticket.id for r in review]
     tickets = models.Ticket.objects.filter(user__in=followed).exclude(id__in=ticket_exclude)
 
@@ -138,9 +139,6 @@ def edit_ticket(request, ticket_id):
         if 'edit_ticket' in request.POST:
             edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
             if edit_form.is_valid():
-                image_path = ticket.image.path
-                if os.path.exists(image_path):
-                    os.remove(image_path)
                 edit_form.save()
                 return redirect('posts')
         if 'delete_ticket' in request.POST:

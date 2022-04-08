@@ -11,12 +11,55 @@
     </div>
 </div>
     <div class="row border">
-    <form method="post">
-        {% bootstrap_form edit_form %}
+    <form method="post" action="">
+
         {% csrf_token %}
-         {% buttons %}
-        <button class="btn btn-primary" type="submit" >Modifier</button>
-         {% endbuttons %}
+        <input type="hidden" name="edit_review" value="True">
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" value="{{ edit_form.headline.value }}" name="headline" class="form-control" id="titre" required>
+        </div>
+        <div class="mb-3 form-check">
+            <label class="form-check-label" >Note</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox1"
+                   {% if edit_form.rating.value == 0 %} checked {% endif %} value="0" >
+            <label class="form-check-label" for="inlineCheckbox1">0</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input"  name="rating" type="radio" id="inlineCheckbox2"
+                   {% if edit_form.rating.value == 1 %} checked {% endif %} value="1">
+            <label class="form-check-label" for="inlineCheckbox2">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox3"
+                   {% if edit_form.rating.value == 2 %} checked {% endif %} value="2">
+            <label class="form-check-label" for="inlineCheckbox3">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox4"
+                   {% if edit_form.rating.value == 3 %} checked {% endif %} value="3">
+            <label class="form-check-label" for="inlineCheckbox4">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox5"
+                   {% if edit_form.rating.value == 4 %} checked {% endif %} value="4">
+            <label class="form-check-label" for="inlineCheckbox5">4</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox6"
+                   {% if edit_form.rating.value == 5 %} checked {% endif %} value="5">
+            <label class="form-check-label" for="inlineCheckbox6">5</label>
+            </div>
+
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">Commentaire</label>
+          <textarea name="body"  class="form-control" id="exampleFormControlTextarea1" rows="6"
+                    required>{{ edit_form.body.value }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Envoyer</button>
     </form>
     <hr>
     <h3>Supprimer la critique ?</h3>

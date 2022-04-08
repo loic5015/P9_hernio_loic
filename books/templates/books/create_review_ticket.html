@@ -6,12 +6,51 @@
     <h4>Créer une critique</h4>
     <form method="post" enctype="multipart/form-data">
         {% bootstrap_form form_ticket %}
-        {% bootstrap_form form_review %}
+
+
+        <input type="hidden" name="edit_review" value="True">
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" name="headline" class="form-control" id="titre" required>
+        </div>
+        <div class="mb-3 form-check">
+            <label class="form-check-label" >Note</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox1" value="0">
+            <label class="form-check-label" for="inlineCheckbox1">0</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input"  name="rating" type="radio" id="inlineCheckbox2" value="1">
+            <label class="form-check-label" for="inlineCheckbox2">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox3" value="2">
+            <label class="form-check-label" for="inlineCheckbox3">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox4" value="3">
+            <label class="form-check-label" for="inlineCheckbox4">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox5" value="4">
+            <label class="form-check-label" for="inlineCheckbox5">4</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" name="rating" type="radio" id="inlineCheckbox6" value="5">
+            <label class="form-check-label" for="inlineCheckbox6">5</label>
+            </div>
+
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">Commentaire</label>
+          <textarea name="body" class="form-control" id="exampleFormControlTextarea1" rows="6" required></textarea>
+        </div>
+
         {% csrf_token %}
         {% buttons %}
         <button class="btn btn-primary" type="submit" >Envoyer</button>
     </form>
-    <a href="{% url 'login' %}"><button class="btn btn-info" type="" >Retourner</button></a>
+    <a href="{% url 'home' %}" class="btn btn-info" >Retourner</a>
         {% endbuttons %}
     </div>
     </div>

@@ -5,10 +5,15 @@
 {% block content %}
     <div class="row">
     <h4 class="text-center">Suivre d'autres utilisateurs</h4>
-    <form class="form-inline" method="post" >
-        {% bootstrap_form form  %}
+    <form class="row g-3" method="post" >
         {% csrf_token %}
-        {% buttons submit='Envoyer' %}{% endbuttons %}
+        <div class="col-md-11">
+            <label for="username" class="visually-hidden">Password</label>
+            <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary mb-3">Envoyer</button>
+        </div>
     </form>
     <h2 class="text-center">Abonnements</h2>
     <ul class="list-group">
