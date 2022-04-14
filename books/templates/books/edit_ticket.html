@@ -6,7 +6,9 @@
     <h4>Modifier le ticket</h4>
     <form method="post" enctype="multipart/form-data">
         {% bootstrap_form edit_form %}
+        {% if edit_form.image.value %}
         <p><img class="img-fluid" src="{{ edit_form.image.value.url }}"></p>
+        {% endif %}
         {% csrf_token %}
          {% buttons %}
         <button class="btn btn-primary" type="submit" >Modifier</button>

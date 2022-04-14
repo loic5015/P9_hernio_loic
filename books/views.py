@@ -14,7 +14,8 @@ def home(request):
     followed = [user.followed_user for user in follow]
     followed.append(request.user)
     ticket_user = models.Ticket.objects.filter(user=request.user)
-    review = models.Review.objects.filter(Q(user__in=followed) | Q(ticket__in=ticket_user))
+    follow_user = models.Ticket.objects.filter(user__in=followed)
+    review = models.Review.objects.filter(Q(user__in=followed) | Q(ticket__in=ticket_user) | Q(ticket__in=follow_user))
     ticket_exclude = [r.ticket.id for r in review]
     tickets = models.Ticket.objects.filter(user__in=followed).exclude(id__in=ticket_exclude)
 
